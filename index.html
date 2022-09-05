@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+* {
+    font-family: 'Pacifico', cursive;
+    margin: 0px;
+    padding: 0px;
+}
+
+#player {
+    width: 50px;
+    height: 50px;
+    background-color: #01a1a1;
+    border-radius: 10px;
+    position: absolute;
+    /*margin-top: 275px;*/
+    /*margin-left: 655px;*/
+}
+
+body {
+    background-color: rgb(26, 26, 26);
+}
+
+#border {
+    background-color: #016969;
+    border-radius: 10px;
+    position: absolute;
+    /*margin-top: 25px;
+    margin-left: 283px;
+    /*183*/
+}
+#bait{
+    width: 25px;
+    height: 25px;
+    background-color: #A41720;
+    border-radius: 5px;
+    position: absolute;
+    /* margin-top: 300px;
+    margin-left: 400px; */
+}
+#menu{
+    background-color: rgb(26, 26, 26);
+    border-radius: 20px;
+    border: solid 10px;
+    border-color: rgb(173, 175, 23);
+    position: absolute;
+    height: 600px;
+    color: rgb(146, 146, 146);
+    font-size: 25px;
+    width: 800px;
+}
+.text{
+    margin-left: 50px;
+    margin-top: 25px;
+}
+p{
+    margin-left: 50px;
+}
+/* #playBtn{
+    border-left: 120px solid rgb(240, 255, 31);
+    border-right: 0px solid green;
+    border-top: 60px solid transparent;
+    border-bottom: 60px solid transparent;
+}
+#contPlayBtn{
+    padding: 80px;
+    background-color: aliceblue;
+    height: 20px;
+    border-radius: 100%;
+    width: 20px;
+} */
+#img{
+    width: 100px;
+    height: 100px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+p{
+    font-size: xx-large;
+    position: absolute;
+    border: #A41720;
+    margin-right: 10px;
+    color: rgb(96, 153, 153);
+    right: 0;
+}
+</style>
+<body onload="loadIt()">
+    <div id="border">
+        <div id="bait"></div>
+        <div id="player"></div>
+        <p id="score">0 :Score</p>
+    </div>
+</body>
+<script>
+//cordinates of the player
+var x = 0
+var y = 0
+var yStr = 0
+var xStr = 0
+
+//Score
+var intScore = 0
+
+//codinates of the bait
+var bx = 0
+var by = 0
+var byStr = 0
+var bxStr = 0
+
+var move = false
+var contBait = document.getElementById("contBait");
+var brdr = document.getElementById("border");
+
+//Background Width
+var clientWindowWidth = window.innerWidth
+var widthCalculator = 0.5857*clientWindowWidth
+var clientWidthInInt = Math.floor(widthCalculator)
+var borderWidth = clientWidthInInt + "px"
+
+//Background height
+var clientWindowHeight = window.innerHeight
+var heightCalculator = 0.925*clientWindowHeight
+var clientHeightInInt = Math.floor(heightCalculator)
+var borderHeight = clientHeightInInt + "px"
+
+//top margin calc
+var mrgn_top = (clientWindowHeight/2)-(clientHeightInInt/2);
+var usable_mrgn_top = mrgn_top.toString();
+usable_mrgn_top = usable_mrgn_top + "px";
+
+//left margin calc
+var mrgn_left = (clientWindowWidth/2)-(clientWidthInInt/2);
+var usable_mrgn_left = mrgn_left.toString();
+usable_mrgn_left = usable_mrgn_left + "px";
+
+//Op Maths
+setInterval(baitMove, 3000)
+
+//position and movement of bait
+var baitPositionY = Math.abs(Math.floor(Math.random() * clientHeightInInt)-  25);
+var baitPositionX = Math.abs(Math.floor(Math.random() * clientWidthInInt) -25);
+
+function baitMove(){
+    var score = document.getElementById("score");
+    baitPositionY = Math.abs(Math.floor(Math.random() * clientHeightInInt)-  25);
+    baitPositionX = Math.abs(Math.floor(Math.random() * clientWidthInInt) -25);
+    var poY = baitPositionY + "px"
+    var poX = baitPositionX + "px"
+    var bait = document.getElementById("bait");
+    
+    bait.style.marginTop = poY;
+    bait.style.marginLeft = poX;
+    score.innerHTML = intScore + " :Score";
+}
+
+function loadIt(){
+    var playerElement = document.getElementById("player");
+
+    
+    
+    var poY = baitPositionY + "px"
+    var poX = baitPositionX + "px"
+    var bait = document.getElementById("bait");
+
+    var a = document.getElementById("border").style.width = borderWidth;
+    var h = document.getElementById("border").style.height = borderHeight;
+    var s = document.getElementById("border").style.marginTop = usable_mrgn_top;
+    var s = document.getElementById("border").style.marginLeft = usable_mrgn_left;
+    bait.style.marginTop = poY;
+    bait.style.marginLeft = poX;
+}
+
+
+function playerMoveDown() {
+    if (y < clientHeightInInt-50) {
+        var playerElement = document.getElementById("player");
+        y = y + 10
+        yStr = y.toString()
+        yStr = y + "px"
+
+        playerElement.style.marginTop = yStr
+    }
+}
+function playerMoveUp() {
+    if (y > 0) {
+        var playerElement = document.getElementById("player");
+        y = y - 10
+        yStr = y.toString()
+        yStr = y + "px"
+
+        playerElement.style.marginTop = yStr
+    }
+}
+function playerMoveRight() {
+    if (x < clientWidthInInt-50) {
+        var playerElement = document.getElementById("player");
+        x = x + 10
+        xStr = x.toString()
+        xStr = x + "px"
+    }
+
+    playerElement.style.marginLeft = xStr
+}
+function playerMoveLeft() {
+    if (x > 0) {
+        var playerElement = document.getElementById("player");
+        x = x - 10
+        xStr = x.toString()
+        xStr = x + "px"
+    } else {
+        return
+    }
+
+    playerElement.style.marginLeft = xStr
+}
+
+document.addEventListener('keydown', function (event) {
+    if (event.keyCode == 65) {
+        playerMoveLeft();
+    }
+    if (event.keyCode == 68) {
+        playerMoveRight();
+    }
+    if (event.keyCode == 83) {
+        playerMoveDown();
+    }
+    if (event.keyCode == 87) {
+        playerMoveUp();
+    }
+    if(baitPositionX > x + 50 || baitPositionX + 25 < x || baitPositionY > y + 50 || baitPositionY + 25 < y)
+    {
+    }
+    else{
+        intScore++
+        baitMove();
+    }
+});
+window.onresize = () => {
+    location.reload();
+}
+</script>
+
+</html>
